@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Yêu Cầu Báo Giá</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    body { background-color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .container { max-width: 600px; margin-top: 20px; }
+    .primary-color { background-color: #e42327 !important; }
+    .required-note { color: #e42327; font-size: 0.9rem; margin-bottom: 20px; }
+    .required label:after { content: " (*)"; color: #e42327; }
+    .input-field label { color: #555; }
+    .btn .spinner { display: none; width: 20px; height: 20px; vertical-align: middle; margin-left: 10px; }
+    .btn.loading .btn-text, .btn.loading .btn-icon { display: none; }
+    .btn.loading .spinner { display: inline-block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card-panel">
+      <p class="required-note">(*) là các trường bắt buộc.</p>
+      <form id="opportunityForm">
+        <!-- ... TOÀN BỘ CÁC TRƯỜNG INPUT GIỮ NGUYÊN ... -->
+        <div class="row">
+          <div class="input-field col s12 required">
+            <input id="ten_khach_hang" name="ten_khach_hang" type="text" class="validate" required>
+            <label for="ten_khach_hang">Tên khách hàng</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 required">
+            <input id="dien_thoai" name="dien_thoai" type="tel" class="validate" required pattern="[0-9]{9,11}">
+            <label for="dien_thoai">Điện thoại</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="ten_cong_ty" name="ten_cong_ty" type="text" class="validate">
+            <label for="ten_cong_ty">Tên Công Ty</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <select id="san_pham_can_in" name="san_pham_can_in">
+              <option value="" disabled selected>Chọn sản phẩm</option>
+              <option value="Sticker sheet">Sticker sheet</option><option value="Sticker diecut">Sticker diecut</option><option value="In logo">In logo</option><option value="Nhãn dán">Nhãn dán</option><option value="Enamel pin ghim kim loại">Enamel pin ghim kim loại</option><option value="Áo thun">Áo thun</option><option value="Patch vải">Patch vải</option><option value="Sticker ủi lên vải, quần áo">Sticker ủi lên vải, quần áo</option><option value="Sticker kim loại Metal">Sticker kim loại Metal</option><option value="DTF">DTF</option><option value="Khác">Khác</option>
+            </select>
+            <label>Sản phẩm cần in</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="so_luong" name="so_luong" type="number" class="validate" min="1">
+            <label for="so_luong">Số lượng</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <select id="muc_dich_su_dung" name="muc_dich_su_dung">
+              <option value="" disabled selected>Chọn mục đích</option>
+              <option value="Marketing nội bộ công ty">Marketing nội bộ công ty</option><option value="Để bán/kinh doanh">Để bán/kinh doanh</option><option value="Quà tặng sự kiện">Quà tặng sự kiện</option><option value="Quà tặng KH">Quà tặng KH</option><option value="Quà tặng người thân">Quà tặng người thân</option><option value="FOR FUN ( IN DÁN CHƠI )">FOR FUN ( IN DÁN CHƠI )</option><option value="Làm đồ án mỹ thuật">Làm đồ án mỹ thuật</option><option value="Nhãn dán bao bì">Nhãn dán bao bì</option><option value="Khác">Khác</option>
+            </select>
+            <label>Mục đích sử dụng</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="file-field input-field col s12">
+            <div class="btn primary-color">
+              <span>Tệp thiết kế</span>
+              <input type="file" id="thiet_ke_file" name="thiet_ke_file">
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="Tải lên tệp thiết kế (nếu có)">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea id="ghi_chu" name="ghi_chu" class="materialize-textarea"></textarea>
+            <label for="ghi_chu">Ghi chú</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <button id="submitBtn" class="btn waves-effect waves-light primary-color" type="submit" name="action">
+              <span class="btn-text">GỬI YÊU CẦU</span>
+              <i class="material-icons right btn-icon">send</i>
+              <div class="preloader-wrapper small active spinner">
+                <div class="spinner-layer spinner-white-only">
+                  <div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </form>
+      <div id="responseMessage" class="center-align" style="margin-top: 20px;"></div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    // ===== LOGIC JAVASCRIPT MỚI SỬ DỤNG FETCH API =====
+    
+    // QUAN TRỌNG: DÁN URL WEB APP BẠN ĐÃ TRIỂN KHAI LẠI Ở BƯỚC 1 VÀO ĐÂY
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxRp8XYR0Ydoc2xspdJu7kDMbtfDDCPBdLaae_YpOHjr_OdYOokxLr7RhpNc2UlQsxT/exec';
+
+    const form = document.getElementById('opportunityForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const responseDiv = document.getElementById('responseMessage');
+
+    document.addEventListener('DOMContentLoaded', function() { M.AutoInit(); });
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Ngăn form tự gửi đi
+      submitData();
+    });
+
+    function showLoading() { submitBtn.disabled = true; submitBtn.classList.add('loading'); responseDiv.innerHTML = ''; }
+    function hideLoading() { submitBtn.disabled = false; submitBtn.classList.remove('loading'); }
+
+    async function submitData() {
+      showLoading();
+      
+      const object = {};
+      new FormData(form).forEach((value, key) => { object[key] = value; });
+
+      const fileInput = document.getElementById('thiet_ke_file');
+      if (fileInput.files.length > 0) {
+        try {
+          const fileData = await readFileAsBase64(fileInput.files[0]);
+          object.thiet_ke_file_base64 = fileData.base64;
+          object.thiet_ke_file_name = fileData.name;
+          object.thiet_ke_file_mimeType = fileData.type;
+        } catch (error) {
+          showResponse({ success: false, message: "Lỗi đọc tệp: " + error.toString() });
+          return;
+        }
+      }
+      
+      // Gửi dữ liệu đến backend bằng fetch
+      fetch(WEB_APP_URL, {
+        method: 'POST',
+        // Google Apps Script yêu cầu kiểu nội dung này khi nhận qua e.postData.contents
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(object)
+      })
+      .then(response => response.json())
+      .then(data => showResponse(data))
+      .catch(error => showResponse({ success: false, message: 'Lỗi mạng: ' + error.toString() }));
+    }
+    
+    function readFileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve({
+            base64: reader.result,
+            name: file.name,
+            type: file.type
+        });
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function showResponse(response) {
+      hideLoading();
+      if (response && response.success) {
+        responseDiv.innerHTML = '<h5 class="green-text">' + response.message + '</h5>';
+        form.reset();
+        M.FormSelect.init(document.querySelectorAll('select'), {});
+        M.updateTextFields();
+      } else {
+        const errorMessage = (response && response.message) ? response.message : 'Đã xảy ra lỗi không xác định.';
+        responseDiv.innerHTML = '<h5 class="red-text">' + errorMessage + '</h5>';
+      }
+    }
+  </script>
+</body>
+</html>
